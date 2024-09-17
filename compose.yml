@@ -1,0 +1,27 @@
+volumes:
+  vol-nextjs:
+     
+services:
+
+    nextjs:
+        image: "next/nextui:234"
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t        
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                PROJ_TEMPLATE_NAME: ${PROJ_TEMPLATE_NAME}
+        command:
+        - /bin/sh
+        - -c
+        - |
+            ls -alF
+            echo $SHELL
+            /root/.local/share/pnpm/pnpm run dev
+        ports:
+            - "3000:3000"
+        restart: no
+        volumes:
+            - vol-nextjs:/opt
+        
